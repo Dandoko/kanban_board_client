@@ -1,8 +1,13 @@
 <div class="main-container">
     <div class="navbar has-background-dark">
-        <div class="navbar-brand">
+        <div class="navbar-start">
             <div class="navbar-item">
                 <h1 class="app-name">Kanban Board</h1>
+            </div>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <button class="button is-link has-text-white" (click)="createNewColumn()">+ Column</button>
             </div>
         </div>
     </div>
@@ -10,7 +15,6 @@
     <div class="board">
         <div class="board-wrapper">
             <div class="board-columns" cdkDropListGroup>
-
                 <div class="board-column has-background-grey-light" *ngFor="let column of board.columns">
                     <div class="column-header">
                         <div class="column-title has-text-black">
