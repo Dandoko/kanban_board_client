@@ -1,24 +1,22 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MainViewComponent } from './pages/main-view/main-view.component';
+import { MainViewModule } from './pages/main-view/main-view.module';
+import { CoreModule } from './core/core.module';
+import { NewColumnModule } from './pages/new-column/new-column.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    MainViewComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    DragDropModule,
-    HttpClientModule
+    AppRoutingModule, MainViewModule, CoreModule, NewColumnModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

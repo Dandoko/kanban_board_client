@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MainViewComponent } from './pages/main-view/main-view.component';
 
 const routes: Routes = [
-  {path: '', component: MainViewComponent}
+  { path: '', pathMatch: 'full', redirectTo: 'board'},
+  { path: 'new-column', pathMatch: 'full', redirectTo: 'new-column'},
+  { path: '**', redirectTo: 'board'} // Handles invalid inputs
 ];
 
 @NgModule({
