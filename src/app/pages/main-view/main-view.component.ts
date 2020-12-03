@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
-import { Board } from "../../models/board.model";
 import { Column } from 'src/app/models/column.model';
 import { BoardService } from '../../core/board.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-main-view',
@@ -12,41 +12,21 @@ import { BoardService } from '../../core/board.service';
 })
 export class MainViewComponent implements OnInit {
 
-  constructor(private boardService: BoardService) { }
+  columns: Column[];
 
-  createNewColumn() {
-    this.boardService.createColumn('Testing').subscribe((res) => {
-      console.log(res);
-    })
-  }
-
-  board: Board = new Board('Test Board', [
-    new Column('To Do', [
-      "Some random Idea",
-      "This is another random idea",
-      "Build an awesome app"
-    ]),
-    new Column('In Progress', [
-      "123",
-      "abc",
-      "wasd"
-    ]),
-    new Column('Under Review', [
-      'Get to work',
-      'Pick up groceries',
-      'Go home',
-      'Fall asleep'
-    ]),
-    new Column('Complete', [
-      'Get up',
-      'Brush teeth',
-      'Take a shower',
-      'Check e-mail',
-      'Walk dog'
-    ])
-  ]);
+  constructor(private boardService: BoardService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.boardService.getColumns().subscribe((columns: Column[]) => {
+      this.columns = columns; 
+
+      // Getting the tasks inside of each column from the server and assigning the tasks to the column for the frontend
+      this.columns.forEach((column) => {
+        this.boardService.getTasks(column._id).subscribe((tasks: any[]) => {
+          column.tasks = tasks;
+        });
+      });
+    });
   }
 
   drop(event: CdkDragDrop<string[]>) {

@@ -1,5 +1,5 @@
 export class Column {
-    constructor(public name: string, public tasks: string[]) {
-        
-    }
+    _id: string;
+    title: string;
+    tasks: any[];
 }

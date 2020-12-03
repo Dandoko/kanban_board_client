@@ -7,7 +7,7 @@ import { NewColumnRoutingModule } from './new-column-routing.module';
 @NgModule({
   declarations: [NewColumnComponent],
   imports: [
-    CommonModule,
+    CommonModule, 
     NewColumnRoutingModule
   ]
 })

@@ -7,7 +7,7 @@
         </div>
         <div class="navbar-end">
             <div class="navbar-item">
-                <button class="button is-link has-text-white" (click)="createNewColumn()">+ Column</button>
+                <button class="button is-link has-text-white" routerLink="/new-column">+ Column</button>
             </div>
         </div>
     </div>
@@ -15,22 +15,22 @@
     <div class="board">
         <div class="board-wrapper">
             <div class="board-columns" cdkDropListGroup>
-                <div class="board-column has-background-grey-light" *ngFor="let column of board.columns">
+                <div class="board-column has-background-grey-light" *ngFor="let column of columns">
                     <div class="column-header">
                         <div class="column-title has-text-black">
-                            {{ column.name }}
+                            {{ column.title }}
                         </div>
                         <div class="create-task-icon">
                             <i class="fas fa-plus"></i>
                         </div>
                     </div>
 
-                    <div class="tasks-container"
+                     <div class="tasks-container"
                     cdkDropList
                     [cdkDropListData]="column.tasks"
                     (cdkDropListDropped)="drop($event)">
-                        <div class="task" *ngFor="let item of column.tasks" cdkDrag>
-                            {{ item }}
+                        <div class="task" *ngFor="let task of column.tasks" cdkDrag>
+                            {{ task.title }}
                         </div>
                     </div>
                 </div>

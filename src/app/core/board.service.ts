@@ -11,4 +11,12 @@ export class BoardService {
   createColumn(title: string) {
     return this.webReqService.post('columns', { title });
   }
+
+  getColumns() {
+    return this.webReqService.get('columns');
+  }
+
+  getTasks(columnId: string) {
+    return this.webReqService.get(`columns/${columnId}/tasks`);
+  }
 }

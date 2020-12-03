@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { BoardService } from 'src/app/core/board.service';
 
 @Component({
   selector: 'app-new-column',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewColumnComponent implements OnInit {
 
-  constructor() { }
+  constructor(private boardService: BoardService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
+  createColumn(title: string) {
+    this.boardService.createColumn(title).subscribe(() => {
+      this.router.navigateByUrl('/board');
+    })
+  }
 }
