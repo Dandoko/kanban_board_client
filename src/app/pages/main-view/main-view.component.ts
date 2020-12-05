@@ -3,7 +3,6 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 
 import { Column } from 'src/app/models/column.model';
 import { BoardService } from '../../core/board.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-main-view',
@@ -14,7 +13,7 @@ export class MainViewComponent implements OnInit {
 
   columns: Column[];
 
-  constructor(private boardService: BoardService, private route: ActivatedRoute) { }
+  constructor(private boardService: BoardService) { }
 
   ngOnInit(): void {
     this.boardService.getColumns().subscribe((columns: Column[]) => {

@@ -6,9 +6,7 @@ import { MainViewComponent } from './main-view.component';
 import { MainViewRoutingModule } from './main-view-routing.module';
 
 @NgModule({
-  declarations: [
-    MainViewComponent
-  ],
+  declarations: [MainViewComponent],
   imports: [
     CommonModule, DragDropModule,
     MainViewRoutingModule

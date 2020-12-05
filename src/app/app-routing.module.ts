@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'board'},
   { path: 'new-column', pathMatch: 'full', redirectTo: 'new-column'},
+  { path: ':columnId/new-task', pathMatch: 'full', redirectTo: ':columnId/new-task'},
   { path: '**', redirectTo: 'board'} // Handles invalid inputs
 ];
 
