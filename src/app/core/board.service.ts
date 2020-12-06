@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Task } from '../models/task.model';
 import { WebRequestService } from './web-request.service';
 
 @Injectable({
@@ -22,5 +23,11 @@ export class BoardService {
 
   getTasks(columnId: string) {
     return this.webReqService.get(`columns/${columnId}/tasks`);
+  }
+
+  completeTask(task: Task) {
+    return this.webReqService.put(`columns/${task._columnId}/tasks/${task._id}`, {
+      completed: !task.completed
+    });
   }
 }

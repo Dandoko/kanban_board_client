@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 import { Column } from 'src/app/models/column.model';
+import { Task } from 'src/app/models/task.model';
 import { BoardService } from '../../core/board.service';
 
 @Component({
@@ -21,10 +22,16 @@ export class MainViewComponent implements OnInit {
 
       // Getting the tasks inside of each column from the server and assigning the tasks to the column for the frontend
       this.columns.forEach((column) => {
-        this.boardService.getTasks(column._id).subscribe((tasks: any[]) => {
+        this.boardService.getTasks(column._id).subscribe((tasks: Task[]) => {
           column.tasks = tasks;
         });
       });
+    });
+  }
+
+  completeTask(task: Task) {
+    this.boardService.completeTask(task).subscribe(() => {
+      task.completed = !task.completed;
     });
   }
 
