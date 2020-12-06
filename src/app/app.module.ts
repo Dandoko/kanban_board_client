@@ -7,12 +7,13 @@ import { MainViewModule } from './pages/main-view/main-view.module';
 import { CoreModule } from './core/core.module';
 import { NewColumnModule } from './pages/new-column/new-column.module';
 import { NewTaskModule } from './pages/new-task/new-task.module';
+import { LoginModule } from './pages/login/login.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule, MainViewModule, CoreModule, NewColumnModule, NewTaskModule
+    AppRoutingModule, MainViewModule, CoreModule, NewColumnModule, NewTaskModule, LoginModule
   ],
   providers: [],
   bootstrap: [AppComponent]
