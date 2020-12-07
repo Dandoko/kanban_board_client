@@ -11,6 +11,7 @@ export class AuthService {
 
   constructor(private webRequestService: WebRequestService, private router: Router) { }
 
+  // Login
   login(email: string, password: string) {
     // Using rxjs' .pipe() to combine multiple functions into one
     return this.webRequestService.login(email, password).pipe(
@@ -19,7 +20,7 @@ export class AuthService {
       // Using tap() to use the observed data
       tap((res: HttpResponse<any>) => {
         this.setSession(res.body._id, res.headers.get('x-access-token'), res.headers.get('x-refresh-token'));
-        console.log("LOGGED IN");
+        console.log("src:app:core:auth.service.ts - LOGGED IN");
       })
     );
   }
@@ -27,8 +28,6 @@ export class AuthService {
   // Logout
   logout() {
     this.removeSession();
-
-    // Redircts to the login page
     this.router.navigate(['/login']);
   }
 

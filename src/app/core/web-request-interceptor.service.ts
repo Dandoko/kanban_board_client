@@ -1,7 +1,9 @@
+// Appends the access token to the header
+
 import { HttpHandler, HttpRequest, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { empty, Observable, Subject, throwError } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 
@@ -13,19 +15,20 @@ export class WebRequestInterceptorService implements HttpInterceptor {
   constructor(private authService: AuthService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    // Handle the request
-    request = this.addAuthHeader(request);
+    // Handles the request
+    request = this.addAccessTokenToHeader(request);
 
-    // Handle the response
+    // Handles the response
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
+        console.log("src:app:core:web-request-interceptor.service.ts -");
         console.log(error);
         return throwError(error);
       })
     );
   }
 
-  addAuthHeader(request: HttpRequest<any>) {
+  addAccessTokenToHeader(request: HttpRequest<any>) {
     // Get the access header
     const accessToken = this.authService.getAccessToken();
 

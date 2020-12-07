@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
 
   login(email: string, password: string) {
     this.authService.login(email, password).subscribe((res: HttpResponse<any>) => {
+      console.log("src:app:pages:login:login.component.ts -");
       console.log(res);
     });
   }
