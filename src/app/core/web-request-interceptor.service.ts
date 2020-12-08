@@ -28,6 +28,7 @@ export class WebRequestInterceptorService implements HttpInterceptor {
     );
   }
 
+  // Adds the access token to the header of the request
   addAccessTokenToHeader(request: HttpRequest<any>) {
     // Get the access header
     const accessToken = this.authService.getAccessToken();
