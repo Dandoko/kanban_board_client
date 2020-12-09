@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { WebRequestService } from './web-request.service';
 import { shareReplay, tap } from 'rxjs/operators';
-import { HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private webRequestService: WebRequestService, private router: Router) { }
+  constructor(private webRequestService: WebRequestService, private router: Router, private http: HttpClient) { }
 
   // Login
   login(email: string, password: string) {
@@ -29,6 +29,10 @@ export class AuthService {
   logout() {
     this.removeSession();
     this.router.navigate(['/login']);
+  }
+
+  getUserId() {
+    return localStorage.getItem('user-id');
   }
 
   // Gets the access token
@@ -58,5 +62,20 @@ export class AuthService {
     localStorage.removeItem('user-id');
     localStorage.removeItem('x-access-token');
     localStorage.removeItem('x-refresh-token');
+  }
+
+  // Gets a refreshed access token
+  getNewAccesToken() {
+    return this.http.get(`${this.webRequestService.ROOT_URL}/users/refresh-access-token`, {
+      headers: {
+        'x-refresh-token': this.getRefreshToken(),
+        '_id': this.getUserId()
+      },
+      observe: 'response'
+    }).pipe(
+      tap((res: HttpResponse<any>) => {
+        this.setAccessToken(res.headers.get('x-access-token'));
+      })
+    );
   }
 }
