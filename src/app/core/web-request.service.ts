@@ -26,10 +26,16 @@ export class WebRequestService {
     return this.http.delete(`${this.ROOT_URL}/${uri}`);
   }
 
+  signup(email: string, password: string) {
+    return this.http.post(`${this.ROOT_URL}/users`,
+    { email, password },
+    // Observing the full response (instead of just the content) to get a value from the header of a response
+    { observe: 'response' });
+  }
+
   login(email: string, password: string) {
     return this.http.post(`${this.ROOT_URL}/users/login`,
     { email, password },
-    // Observing the full response (instead of just the content) to get a value from the header of a response
     { observe: 'response' });
   }
 }

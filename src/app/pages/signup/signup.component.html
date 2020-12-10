@@ -1,0 +1,29 @@
+<div class="centred-container">
+    <div class="auth-box has-background-grey-light">
+        <h1 class="title has-text-link">Sign Up</h1>
+
+        <div class="field">
+          <p class="control has-icons-left has-icons-right">
+            <input #emailInput class="input has-background-light" type="email" placeholder="Email">
+            <span class="icon is-small is-left">
+              <i class="fas fa-envelope"></i>
+            </span>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control has-icons-left">
+            <input #passwordInput class="input has-background-light" type="password" placeholder="Password">
+            <span class="icon is-small is-left">
+              <i class="fas fa-lock"></i>
+            </span>
+          </p>
+        </div>
+        <div class="field" style="display: flex; justify-content: flex-end;">
+          <p class="control">
+            <button class="button is-success has-text-white has-background-link" (click)="signup(emailInput.value, passwordInput.value)">
+              Sign Up
+            </button>
+          </p>
+        </div>
+    </div>
+</div>

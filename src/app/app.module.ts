@@ -8,12 +8,13 @@ import { CoreModule } from './core/core.module';
 import { NewColumnModule } from './pages/new-column/new-column.module';
 import { NewTaskModule } from './pages/new-task/new-task.module';
 import { LoginModule } from './pages/login/login.module';
+import { SignupModule } from './pages/signup/signup.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule, MainViewModule, CoreModule, NewColumnModule, NewTaskModule, LoginModule
+    AppRoutingModule, MainViewModule, CoreModule, NewColumnModule, NewTaskModule, LoginModule, SignupModule
   ],
   providers: [],
   bootstrap: [AppComponent]

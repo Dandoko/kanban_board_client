@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { WebRequestService } from './web-request.service';
 import { shareReplay, tap } from 'rxjs/operators';
-import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +11,24 @@ export class AuthService {
 
   constructor(private webRequestService: WebRequestService, private router: Router, private http: HttpClient) { }
 
-  // Login
-  login(email: string, password: string) {
+  // Sign Up
+  signup(email: string, password: string) {
     // Using rxjs' .pipe() to combine multiple functions into one
-    return this.webRequestService.login(email, password).pipe(
+    return this.webRequestService.signup(email, password).pipe(
       // Using shareReplay() to avoid having mutliple subscribers run the login() method
       shareReplay(),
       // Using tap() to use the observed data
+      tap((res: HttpResponse<any>) => {
+        this.setSession(res.body._id, res.headers.get('x-access-token'), res.headers.get('x-refresh-token'));
+        console.log("src:app:core:auth.service.ts - SIGNED IN AND LOGGED IN");
+      })
+    );
+  }
+
+  // Login
+  login(email: string, password: string) {
+    return this.webRequestService.login(email, password).pipe(
+      shareReplay(),
       tap((res: HttpResponse<any>) => {
         this.setSession(res.body._id, res.headers.get('x-access-token'), res.headers.get('x-refresh-token'));
         console.log("src:app:core:auth.service.ts - LOGGED IN");
