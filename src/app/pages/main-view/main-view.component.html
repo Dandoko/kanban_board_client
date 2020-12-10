@@ -18,14 +18,27 @@
                 <div class="board-column has-background-grey-light" *ngFor="let column of columns">
                     <div class="column-header">
                         <div class="column-title has-text-black">
-                            {{ column.title }}
+                            <input
+                                #columnTitleInput
+                                class="input has-text-weight-bold"
+                                type="text"
+                                placeholder="Text input"
+                                value="{{ column.title }}"
+                                (focus)="renameColumn(column._id)"
+                                (blur)="updateColumn(column._id, columnTitleInput.value)"
+                                [ngClass]="{'addFakeBackgroundColor': !column.isTitleSelected}"
+                            >
                         </div>
-                        <div class="create-task-icon">
-                            <i class="fas fa-plus"></i>
+                        <div class="delete-button is-right ml-3">
+                            <button class="button is-danger" (click)="deleteColumn(column._id)">
+                                <div class="icon">
+                                    <i class="fas fa-trash"></i>
+                                </div>
+                            </button>
                         </div>
                     </div>
 
-                     <div class="tasks-container"
+                    <div class="tasks-container"
                     cdkDropList
                     [cdkDropListData]="column.tasks"
                     (cdkDropListDropped)="drop($event)">

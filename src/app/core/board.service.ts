@@ -17,6 +17,14 @@ export class BoardService {
     return this.webReqService.get('columns');
   }
 
+  updateColumn(title: string, columnId: string) {
+    return this.webReqService.put(`columns/${columnId}`, {title, columnId});
+  }
+
+  deleteColumn(columnId: string) {
+    return this.webReqService.delete(`columns/${columnId}`);
+  }
+
   createTask(title: string, columnId: string) {
     return this.webReqService.post(`columns/${columnId}/tasks`, { title });
   }

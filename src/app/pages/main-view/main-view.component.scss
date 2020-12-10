@@ -51,15 +51,25 @@
                     display: flex;
                     align-items: center;
                     margin-bottom: 20px;
-                }
 
-                .column-title {
-                    display: flex;
-                    flex-grow: 1;
+                    .column-title {
+                        display: flex;
+                        flex-grow: 1;
+    
+                        font-size: 20px;
+                        font-weight: 800;
+                        font-family: 'Lato', sans-serif;
 
-                    font-size: 20px;
-                    font-weight: 800;
-                    font-family: 'Lato', sans-serif;
+                        input {
+                            &:hover {
+                                cursor: pointer;
+                            }
+                        }
+                    }
+
+                    .addFakeBackgroundColor {
+                        background-color: hsl(0, 0%, 71%);
+                    }
                 }
             }
         }

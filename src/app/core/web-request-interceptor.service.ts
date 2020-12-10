@@ -2,7 +2,7 @@
 
 import { HttpHandler, HttpRequest, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { empty, Observable, throwError } from 'rxjs';
+import { empty, Observable, Subject, throwError } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
@@ -13,6 +13,8 @@ import { AuthService } from './auth.service';
 export class WebRequestInterceptorService implements HttpInterceptor {
   // Identifies if the access token is being refreshed
   isRefreshing: boolean;
+  // Using a subject to retry the refreshing access token when the token has already been refreshed
+  accessTokenRefreshed: Subject<any> = new Subject();
 
   constructor(private authService: AuthService) { }
 
@@ -27,7 +29,7 @@ export class WebRequestInterceptorService implements HttpInterceptor {
         console.log(error);
 
         // If unauthorized
-        if (error.status === 401 && !this.isRefreshing) {
+        if (error.status === 401) {
           return this.refreshAccessToken()
             .pipe(
               // switchMap() is an rxjs operator
@@ -52,13 +54,24 @@ export class WebRequestInterceptorService implements HttpInterceptor {
 
   // Refreshes the access token
   refreshAccessToken() {
-    this.isRefreshing = true;
-    return this.authService.getNewAccesToken().pipe(
-      tap(() => {
-        this.isRefreshing = false;
-        console.log("src:app:core:web-request-interceptor.service.ts - Access Token Refreshed");
-      })
-    )
+    if (this.isRefreshing) {
+      return new Observable(observer => {
+        this.accessTokenRefreshed.subscribe(() => {
+          observer.next();
+          observer.complete();
+        });
+      });
+    }
+    else {
+      this.isRefreshing = true;
+      return this.authService.getNewAccesToken().pipe(
+        tap(() => {
+          this.isRefreshing = false;
+          this.accessTokenRefreshed.next();
+          console.log("src:app:core:web-request-interceptor.service.ts - Access Token Refreshed");
+        })
+      )
+    }
   }
 
   // Adds the access token to the header of the request
