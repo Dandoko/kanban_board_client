@@ -38,4 +38,12 @@ export class BoardService {
       completed: !task.completed
     });
   }
+
+  updateTask(task: Task, newTitle: string) {
+    return this.webReqService.put(`columns/${task._columnId}/tasks/${task._id}`, { title: newTitle });
+  }
+
+  deleteTask(task: Task) {
+    return this.webReqService.delete(`columns/${task._columnId}/tasks/${task._id}`);
+  }
 }

@@ -22,7 +22,7 @@
                                 #columnTitleInput
                                 class="input has-text-weight-bold"
                                 type="text"
-                                placeholder="Text input"
+                                placeholder="Column Title"
                                 value="{{ column.title }}"
                                 (focus)="renameColumn(column._id)"
                                 (blur)="updateColumn(column._id, columnTitleInput.value)"
@@ -42,9 +42,15 @@
                     cdkDropList
                     [cdkDropListData]="column.tasks"
                     (cdkDropListDropped)="drop($event)">
-                        <div class="task" *ngFor="let task of column.tasks" (click)="completeTask(task)" [ngClass]="{'completed': task.completed}" cdkDrag>
+                        <div
+                            class="task"
+                            *ngFor="let task of column.tasks"
+                            (click)="openTaskModal(task)"
+                            [ngClass]="{'completed': task.completed}" cdkDrag
+                        >
                             {{ task.title }}
                         </div>
+                        
                     </div>
                     <button [routerLink]="['/', column._id, 'new-task']" class="add-task-button">
                         <div class="create-task-icon">
@@ -53,6 +59,26 @@
                         <h3 class="add-task-text">Add Task</h3>
                     </button>
                 </div>
+            </div>
+        </div>
+
+        <div class="modal" [ngClass]="{'is-active': openTask}">
+            <div class="modal-background" (click)="closeTaskModal()"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit Task</p>
+                    <button class="delete" aria-label="close" (click)="closeTaskModal()"></button>
+                </header>
+                <section class="modal-card-body">
+                    <!-- <input #taskTitleInput class="input has-background-light is-medium" type="text" (ngModel)="selectedTaskTitle"> -->
+                    <input #taskTitleInput class="input has-background-light is-medium" type="text" autocomplete=off value="{{selectedTaskTitle}}">
+                </section>
+                <footer class="field modal-card-foot">
+                    <button class="button is-success" (click)="updateTask(taskTitleInput.value)">Save changes</button>
+                    <button class="button" (click)="closeTaskModal()">Cancel</button>
+                    <button class="button" (click)="completeTask()">Complete Task</button>
+                    <button class="button has-background-danger has-text-white" (click)="deleteTask()">Delete</button>
+                </footer>
             </div>
         </div>
     </div>
