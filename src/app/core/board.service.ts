@@ -43,6 +43,10 @@ export class BoardService {
     return this.webReqService.put(`columns/${task._columnId}/tasks/${task._id}`, { title: newTitle });
   }
 
+  moveTask(prevColumnId: string, columnId: string, taskId: string) {
+    return this.webReqService.put(`columns/${prevColumnId}/tasks/${taskId}`, { _columnId: columnId });
+  }
+
   deleteTask(task: Task) {
     return this.webReqService.delete(`columns/${task._columnId}/tasks/${task._id}`);
   }

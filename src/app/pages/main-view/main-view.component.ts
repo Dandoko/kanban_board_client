@@ -4,6 +4,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import { Column } from 'src/app/models/column.model';
 import { Task } from 'src/app/models/task.model';
 import { BoardService } from '../../core/board.service';
+import { AuthService } from 'src/app/core/auth.service';
 
 @Component({
   selector: 'app-main-view',
@@ -20,7 +21,7 @@ export class MainViewComponent implements OnInit {
   selectedTask: Task;
   selectedTaskTitle: string;
 
-  constructor(private boardService: BoardService) { }
+  constructor(private boardService: BoardService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.boardService.getColumns().subscribe((columns: Column[]) => {
@@ -38,10 +39,8 @@ export class MainViewComponent implements OnInit {
     this.openTask = false;
   }
 
-  completeTask() {
-    this.boardService.completeTask(this.selectedTask).subscribe(() => {
-      this.selectedTask.completed = !this.selectedTask.completed;
-    });
+  getOtherColumns(singleColumnId: string) {
+    this.columns.filter(column => column._id !== singleColumnId);
   }
 
   renameColumn(columnId: string) {
@@ -52,19 +51,6 @@ export class MainViewComponent implements OnInit {
         return false;
       }
     });
-  }
-
-  openTaskModal(task: Task) {
-    this.selectedTask = task;
-    this.selectedTaskTitle = task.title;
-    this.openTask = true;
-  }
-
-  closeTaskModal() {
-    this.openTask = false;
-
-    // Resetting the value of the input form
-    this.taskTitleInput.nativeElement.value = this.selectedTaskTitle;
   }
 
   updateColumn(columnId: string, newTitle: string) {
@@ -92,6 +78,12 @@ export class MainViewComponent implements OnInit {
     this.columns = this.columns.filter(column => column._id !== columnId);
   }
 
+  completeTask() {
+    this.boardService.completeTask(this.selectedTask).subscribe(() => {
+      this.selectedTask.completed = !this.selectedTask.completed;
+    });
+  }
+
   updateTask(newTitle: string) {
     if (newTitle) {
       // Update the column title if the new title is not the same as the old title
@@ -116,6 +108,14 @@ export class MainViewComponent implements OnInit {
     }
   }
 
+  moveTask(prevColumnId: string, newColumnId: string, taskId: string) {
+    if (prevColumnId && newColumnId && taskId) {
+      this.boardService.moveTask(prevColumnId, newColumnId, taskId).subscribe(res => {
+        console.log(res);
+      });
+    }
+  }
+
   deleteTask() {
     this.boardService.deleteTask(this.selectedTask).subscribe(res  => {
       console.log(res);
@@ -131,15 +131,34 @@ export class MainViewComponent implements OnInit {
     this.openTask = false;
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  openTaskModal(task: Task) {
+    this.selectedTask = task;
+    this.selectedTaskTitle = task.title;
+    this.openTask = true;
+  }
+
+  closeTaskModal() {
+    this.openTask = false;
+
+    // Resetting the value of the input form
+    this.taskTitleInput.nativeElement.value = this.selectedTaskTitle;
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
+  drop(event: CdkDragDrop<any>) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(event.container.data.tasks, event.previousIndex, event.currentIndex);
     }
     else {
-      transferArrayItem(event.previousContainer.data,
-                        event.container.data,
+      transferArrayItem(event.previousContainer.data.tasks,
+                        event.container.data.tasks,
                         event.previousIndex,
                         event.currentIndex);
+
+      this.moveTask(event.previousContainer.data.columnId, event.container.data.columnId, event.container.data.tasks[event.currentIndex]._id);
     }
   }
 }
