@@ -88,7 +88,7 @@ export class MainViewComponent implements OnInit {
     if (newTitle) {
       // Update the column title if the new title is not the same as the old title
       if (this.selectedTaskTitle !== newTitle) {
-        this.boardService.updateTask(this.selectedTask, newTitle).subscribe(res => {
+        this.boardService.renameTask(this.selectedTask, newTitle).subscribe(res => {
           console.log(res);
         });
 
@@ -108,12 +108,10 @@ export class MainViewComponent implements OnInit {
     }
   }
 
-  moveTask(prevColumnId: string, newColumnId: string, taskId: string) {
-    if (prevColumnId && newColumnId && taskId) {
-      this.boardService.moveTask(prevColumnId, newColumnId, taskId).subscribe(res => {
+  moveTask(prevColumnId: string, newColumnId: string, prevColumnIndex: number, newColumnIndex: number, taskId: string) {
+      this.boardService.moveTask(prevColumnId, newColumnId, prevColumnIndex, newColumnIndex, taskId).subscribe(res => {
         console.log(res);
       });
-    }
   }
 
   deleteTask() {
@@ -153,12 +151,12 @@ export class MainViewComponent implements OnInit {
       moveItemInArray(event.container.data.tasks, event.previousIndex, event.currentIndex);
     }
     else {
-      transferArrayItem(event.previousContainer.data.tasks,
-                        event.container.data.tasks,
-                        event.previousIndex,
-                        event.currentIndex);
-
-      this.moveTask(event.previousContainer.data.columnId, event.container.data.columnId, event.container.data.tasks[event.currentIndex]._id);
+      transferArrayItem(event.previousContainer.data.tasks, event.container.data.tasks,
+                        event.previousIndex, event.currentIndex);
     }
+
+    this.moveTask(event.previousContainer.data.columnId, event.container.data.columnId,
+      event.previousIndex, event.currentIndex,
+      event.container.data.tasks[event.currentIndex]._id);
   }
 }

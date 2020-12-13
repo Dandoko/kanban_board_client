@@ -58,7 +58,6 @@
                         >
                             {{ task.title }}
                         </div>
-                        
                     </div>
                     <button [routerLink]="['/', column._id, 'new-task']" class="add-task-button">
                         <div class="create-task-icon">
@@ -79,7 +78,6 @@
                     <button class="delete" aria-label="close" (click)="closeTaskModal()"></button>
                 </header>
                 <section class="modal-card-body">
-                    <!-- <input #taskTitleInput class="input has-background-light is-medium" type="text" (ngModel)="selectedTaskTitle"> -->
                     <input #taskTitleInput class="input has-background-light is-medium" type="text" autocomplete=off value="{{selectedTaskTitle}}">
                 </section>
                 <footer class="field modal-card-foot">

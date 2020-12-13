@@ -39,12 +39,13 @@ export class BoardService {
     });
   }
 
-  updateTask(task: Task, newTitle: string) {
+  renameTask(task: Task, newTitle: string) {
     return this.webReqService.put(`columns/${task._columnId}/tasks/${task._id}`, { title: newTitle });
   }
 
-  moveTask(prevColumnId: string, columnId: string, taskId: string) {
-    return this.webReqService.put(`columns/${prevColumnId}/tasks/${taskId}`, { _columnId: columnId });
+  moveTask(prevColumnId: string, newColumnId: string, prevColumnIndex: number, newColumnIndex: number, taskId: string) {
+    return this.webReqService.put(`columns/${prevColumnId}/tasks/${taskId}/moveTask`,
+      { newColumnId, prevColumnIndex, newColumnIndex });
   }
 
   deleteTask(task: Task) {
