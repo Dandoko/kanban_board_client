@@ -108,10 +108,27 @@ export class MainViewComponent implements OnInit {
     }
   }
 
-  moveTask(prevColumnId: string, newColumnId: string, prevColumnIndex: number, newColumnIndex: number, taskId: string) {
-      this.boardService.moveTask(prevColumnId, newColumnId, prevColumnIndex, newColumnIndex, taskId).subscribe(res => {
-        console.log(res);
-      });
+  moveTask(prevColumnId: string, newColumnId: string, prevColumnIndex: number, newColumnIndex: number, taskId: string,
+          prevTasks: Task[], newTasks: Task[]) {
+    this.boardService.moveTask(prevColumnId, newColumnId, prevColumnIndex, newColumnIndex, taskId).subscribe(res => {
+      console.log(res);
+    });
+    
+    // Changing the values in the frontend
+    let movingTask = newTasks.find(task => task._id === taskId);
+
+    let prevTasksToMove = prevTasks.filter(prevTask => prevTask.position > prevColumnIndex);
+    prevTasksToMove.forEach(prevTask => {
+      prevTask.position--;
+    });
+
+    let newTasksToMove = newTasks.filter(newTask => newTask.position >= newColumnIndex && newTask._id !== movingTask._id);
+    newTasksToMove.forEach(newTask => {
+      newTask.position++;
+    });
+
+    movingTask.position = newColumnIndex;
+    movingTask._columnId = newColumnId;
   }
 
   deleteTask() {
@@ -133,6 +150,8 @@ export class MainViewComponent implements OnInit {
     this.selectedTask = task;
     this.selectedTaskTitle = task.title;
     this.openTask = true;
+
+    console.log(this.selectedTask._columnId);
   }
 
   closeTaskModal() {
@@ -149,14 +168,20 @@ export class MainViewComponent implements OnInit {
   drop(event: CdkDragDrop<any>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data.tasks, event.previousIndex, event.currentIndex);
+
+      this.moveTask(event.previousContainer.data.columnId, event.container.data.columnId,
+        event.previousIndex, event.currentIndex,
+        event.container.data.tasks[event.currentIndex]._id,
+        event.container.data.tasks, event.container.data.tasks);
     }
     else {
       transferArrayItem(event.previousContainer.data.tasks, event.container.data.tasks,
                         event.previousIndex, event.currentIndex);
-    }
 
-    this.moveTask(event.previousContainer.data.columnId, event.container.data.columnId,
-      event.previousIndex, event.currentIndex,
-      event.container.data.tasks[event.currentIndex]._id);
+      this.moveTask(event.previousContainer.data.columnId, event.container.data.columnId,
+        event.previousIndex, event.currentIndex,
+        event.container.data.tasks[event.currentIndex]._id,
+        event.previousContainer.data.tasks, event.container.data.tasks);
+    }
   }
 }

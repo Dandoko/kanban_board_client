@@ -3,4 +3,5 @@ export class Task {
     title: string;
     _columnId: string;
     completed: boolean;
+    position: number;
 }
