@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/core/auth.service';
 @Component({
   selector: 'app-main-view',
   templateUrl: './main-view.component.html',
-  styleUrls: ['./main-view.component.scss']
+  styleUrls: ['./main-view.component.scss'],
 })
 export class MainViewComponent implements OnInit {
   @ViewChild('taskTitleInput') taskTitleInput: ElementRef;
@@ -165,7 +165,11 @@ export class MainViewComponent implements OnInit {
     this.authService.logout();
   }
 
-  drop(event: CdkDragDrop<any>) {
+  dropColumn(event: CdkDragDrop<any>) {
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+  }
+
+  dropTask(event: CdkDragDrop<any>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data.tasks, event.previousIndex, event.currentIndex);
 
