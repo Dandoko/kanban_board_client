@@ -30,47 +30,7 @@
             flex-grow: 1;
 
             .board-column {
-                display: flex;
-                flex-direction: column;
-                flex-grow: 1;
-                overflow-y: auto;
-                flex-basis: 0; // Forces all columns to be the same size regardless of the content
-
-                min-width: 300px;
-                max-width: 300px;
-                margin: 50px;
-                padding: 25px;
-
-                border-radius: 4px;
-
-                &:not(:first-child) {
-                    margin-left: 0;
-                }
-
-                .column-header {
-                    display: flex;
-                    align-items: center;
-                    margin-bottom: 20px;
-
-                    .column-title {
-                        display: flex;
-                        flex-grow: 1;
-    
-                        font-size: 20px;
-                        font-weight: 800;
-                        font-family: 'Lato', sans-serif;
-
-                        input {
-                            &:hover {
-                                cursor: pointer;
-                            }
-                        }
-                    }
-
-                    .addFakeBackgroundColor {
-                        background-color: hsl(0, 0%, 71%);
-                    }
-                }
+                @extend .board-column-placeholder;
             }
 
             .create-column-btn {
@@ -79,6 +39,57 @@
         }
     }
 }
+
+.board-column-placeholder {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: auto;
+    flex-basis: 0; // Forces all columns to be the same size regardless of the content
+    
+    min-width: 300px;
+    max-width: 300px;
+
+    .tasks-container > .task {
+        min-width: 250px;
+        max-width: 250px;
+    }
+
+    margin: 50px;
+    padding: 25px;
+
+    border-radius: 4px;
+
+    &:not(:first-child) {
+        margin-left: 0;
+    }
+
+    .column-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+
+        .column-title {
+            display: flex;
+            flex-grow: 1;
+
+            font-size: 20px;
+            font-weight: 800;
+            font-family: 'Lato', sans-serif;
+
+            input {
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .addFakeBackgroundColor {
+            background-color: hsl(0, 0%, 71%);
+        }
+    }
+}
+
 
 .tasks-container {
     min-height: 20px;
@@ -91,12 +102,12 @@
     border-bottom: solid 1px #ddd;
     border-radius: 4px;
     margin-bottom: 15px;
+    background: white;
     cursor: pointer;
 
     &.completed {
         opacity: 0.6;
     }
-
 }
 
 .add-task-button {

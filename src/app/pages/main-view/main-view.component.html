@@ -22,7 +22,9 @@
 
                 cdkDropListGroup
             >
-                <div class="board-column has-background-grey-light" *ngFor="let column of columns" cdkDrag cdkDragLockAxis="x">
+                <div class="board-column has-background-grey-light" *ngFor="let column of columns"
+                    cdkDrag (cdkDragStarted)="startDrag($event)" cdkDragLockAxis="x"
+                >
                     <div class="column-header">
                         <div class="column-title has-text-black">
                             <input
@@ -58,10 +60,13 @@
                     [cdkDropListData]="{columnId: column._id, tasks: column.tasks}"
                     (cdkDropListDropped)="dropTask($event)">
                         <div
+                            #taskTempleteVar
+                            id="task-id"
                             class="task"
                             *ngFor="let task of column.tasks"
                             (click)="openTaskModal(task)"
                             [ngClass]="{'completed': task.completed}" cdkDrag
+                            (cdkDragStarted)="startDrag($event)"
                         >
                             {{ task.title }}
                         </div>

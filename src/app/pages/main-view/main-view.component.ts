@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 import { Column } from 'src/app/models/column.model';
@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/core/auth.service';
 })
 export class MainViewComponent implements OnInit {
   @ViewChild('taskTitleInput') taskTitleInput: ElementRef;
+  @ViewChild('taskTempleteVar') taskTempleteVar: ElementRef;
 
   columns: Column[];
 
@@ -21,7 +22,7 @@ export class MainViewComponent implements OnInit {
   selectedTask: Task;
   selectedTaskTitle: string;
 
-  constructor(private boardService: BoardService, private authService: AuthService) { }
+  constructor(private boardService: BoardService, private authService: AuthService, private renderer: Renderer2) { }
 
   ngOnInit(): void {
     this.boardService.getColumns().subscribe((columns: Column[]) => {
@@ -186,6 +187,16 @@ export class MainViewComponent implements OnInit {
         event.previousIndex, event.currentIndex,
         event.container.data.tasks[event.currentIndex]._id,
         event.previousContainer.data.tasks, event.container.data.tasks);
+    }
+  }
+
+  startDrag(e) {
+    let preview = new ElementRef<HTMLElement>(document.querySelector(".cdk-drag.cdk-drag-preview"));
+    if (e.source.element.nativeElement.id === this.taskTempleteVar.nativeElement.id) {
+      this.renderer.addClass(preview.nativeElement, 'task');
+    }
+    else {
+      this.renderer.addClass(preview.nativeElement, 'board-column-placeholder');
     }
   }
 }

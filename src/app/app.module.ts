@@ -9,11 +9,12 @@ import { NewColumnModule } from './pages/new-column/new-column.module';
 import { NewTaskModule } from './pages/new-task/new-task.module';
 import { LoginModule } from './pages/login/login.module';
 import { SignupModule } from './pages/signup/signup.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule,
+    BrowserModule, RouterModule,
     AppRoutingModule, MainViewModule, CoreModule, NewColumnModule, NewTaskModule, LoginModule, SignupModule
   ],
   providers: [],
