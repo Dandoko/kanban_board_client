@@ -71,9 +71,36 @@ export class MainViewComponent implements OnInit {
     });
   }
 
+  moveColumn(prevColumnIndex: number, newColumnIndex: number) {
+    let movingColumn = this.columns.find(column => column.position === prevColumnIndex);
+
+    this.boardService.moveColumn(movingColumn._id, prevColumnIndex, newColumnIndex).subscribe(res => {
+      console.log(res);
+    });
+
+    let prevColumnToMove = this.columns.filter(prevColumn => prevColumn.position > prevColumnIndex);
+    prevColumnToMove.forEach(prevColumn => {
+      prevColumn.position--;
+    });
+
+    let newTasksToMove = this.columns.filter(newColumn => newColumn.position >= newColumnIndex && newColumn._id !== movingColumn._id);
+    newTasksToMove.forEach(newColumn => {
+      newColumn.position++;
+    });
+
+    movingColumn.position = newColumnIndex;
+  }
+
   deleteColumn(columnId: string) {
+    let deletingColumn = this.columns.find(column => column._id === columnId);
+
     this.boardService.deleteColumn(columnId).subscribe(res  => {
       console.log(res);
+    });
+
+    let movingColumns = this.columns.filter(column => column.position > deletingColumn.position);
+    movingColumns.forEach((column) => {
+      column.position--;
     });
 
     this.columns = this.columns.filter(column => column._id !== columnId);
@@ -140,6 +167,10 @@ export class MainViewComponent implements OnInit {
     this.columns.forEach((column) => {
       if (column._id === this.selectedTask._columnId) {
         column.tasks = column.tasks.filter(task => task._id !== this.selectedTask._id);
+        let movingTasks = column.tasks.filter(task => task.position > this.selectedTask.position);
+        movingTasks.forEach(task => {
+          task.position--;
+        });
         return false;
       }
     });
@@ -151,8 +182,6 @@ export class MainViewComponent implements OnInit {
     this.selectedTask = task;
     this.selectedTaskTitle = task.title;
     this.openTask = true;
-
-    console.log(this.selectedTask._columnId);
   }
 
   closeTaskModal() {
@@ -168,6 +197,8 @@ export class MainViewComponent implements OnInit {
 
   dropColumn(event: CdkDragDrop<any>) {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+
+    this.moveColumn(event.previousIndex, event.currentIndex);
   }
 
   dropTask(event: CdkDragDrop<any>) {
@@ -192,7 +223,7 @@ export class MainViewComponent implements OnInit {
 
   startDrag(e) {
     let preview = new ElementRef<HTMLElement>(document.querySelector(".cdk-drag.cdk-drag-preview"));
-    if (e.source.element.nativeElement.id === this.taskTempleteVar.nativeElement.id) {
+    if (this.taskTempleteVar && e.source.element.nativeElement.id === this.taskTempleteVar.nativeElement.id) {
       this.renderer.addClass(preview.nativeElement, 'task');
     }
     else {

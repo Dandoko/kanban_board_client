@@ -34,7 +34,12 @@
             }
 
             .create-column-btn {
-                margin: 50px 50px 0 0;
+                margin-top: 50px;
+                margin-right: 50px;
+            }
+
+            .create-column-btn-space {
+                margin-left: 100px;
             }
         }
     }
@@ -106,7 +111,8 @@
     cursor: pointer;
 
     &.completed {
-        opacity: 0.6;
+        background: #cfcfcf;
+        border-bottom: solid 1px #c2c2c2;
     }
 }
 

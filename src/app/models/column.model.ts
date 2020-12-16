@@ -3,4 +3,5 @@ export class Column {
     title: string;
     tasks: any[];
     isTitleSelected: boolean;
+    position: number;
 }

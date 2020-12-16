@@ -21,6 +21,10 @@ export class BoardService {
     return this.webReqService.put(`columns/${columnId}`, {title, columnId});
   }
 
+  moveColumn(columnId: string, prevColumnIndex: number, newColumnIndex: number) {
+    return this.webReqService.put(`columns/${columnId}/moveColumn`, { prevColumnIndex, newColumnIndex });
+  }
+
   deleteColumn(columnId: string) {
     return this.webReqService.delete(`columns/${columnId}`);
   }

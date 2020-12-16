@@ -78,7 +78,13 @@
                         <h3 class="add-task-text">Add Task</h3>
                     </button>
                 </div>
-                <button class="button create-column-btn" routerLink="/new-column">+ New Column</button>
+                <button
+                    class="button create-column-btn"
+                    [ngClass]="{'create-column-btn-space': columns && columns.length === 0}"
+                    routerLink="/new-column"
+                >
+                    + New Column
+                </button>
             </div>
         </div>
 
