@@ -1,6 +1,6 @@
 <div class="centred-container">
-    <div class="auth-box has-background-grey-light">
-        <h1 class="title has-text-link">Login</h1>
+    <div class="auth-box">
+        <h1 class="title is-4 has-text-centered">Kanban Board</h1>
 
         <div class="field">
           <p class="control has-icons-left has-icons-right">
@@ -18,13 +18,18 @@
             </span>
           </p>
         </div>
-        <div class="field" style="display: flex; justify-content: flex-end;">
+
+        <p class="has-text-danger has-text-centered" *ngIf="invalid">Invalid username or password</p>
+        <div *ngIf="!invalid"><br></div>
+
+        <div class="field">
           <p class="control">
-            <button class="button is-success has-text-white has-background-link" (click)="login(emailInput.value, passwordInput.value)">
-              Login
+            <button class="button is-fullwidth is-success has-text-white has-background-link" (click)="login(emailInput.value, passwordInput.value)">
+              Log In
             </button>
           </p>
         </div>
-        <p class="has-text-black">No account yet? <a routerLink="/signup">Sign up!</a></p>
+        <br>
+        <p class="has-text-centered">No account yet? <a routerLink="/signup">Sign up!</a></p>
     </div>
 </div>

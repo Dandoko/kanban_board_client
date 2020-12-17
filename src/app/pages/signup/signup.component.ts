@@ -10,19 +10,25 @@ import { AuthService } from 'src/app/core/auth.service';
 })
 export class SignupComponent implements OnInit {
 
+  invalid: boolean;
+
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+    this.invalid = false;
   }
 
   signup(email: string, password: string) {
     this.authService.signup(email, password).subscribe((res: HttpResponse<any>) => {
       if (res.status === 200) {
         this.router.navigate(['/board']);
+        this.invalid = false;
       }
 
       console.log("src:app:pages:login:signup.component.ts -");
       console.log(res);
+    }, () => {
+      this.invalid = true;
     });
   }
 }

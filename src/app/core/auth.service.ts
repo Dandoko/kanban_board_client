@@ -17,7 +17,7 @@ export class AuthService {
     return this.webRequestService.signup(email, password).pipe(
       // Using shareReplay() to avoid having mutliple subscribers run the login() method
       shareReplay(),
-      // Using tap() to use the observed data
+      // Using tap() to use the observed data without changing anything
       tap((res: HttpResponse<any>) => {
         this.setSession(res.body._id, res.headers.get('x-access-token'), res.headers.get('x-refresh-token'));
         console.log("src:app:core:auth.service.ts - SIGNED IN AND LOGGED IN");
