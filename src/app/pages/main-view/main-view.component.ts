@@ -12,13 +12,16 @@ import { AuthService } from 'src/app/core/auth.service';
   styleUrls: ['./main-view.component.scss'],
 })
 export class MainViewComponent implements OnInit {
-  @ViewChild('taskTitleInput') taskTitleInput: ElementRef;
   @ViewChild('taskTempleteVar') taskTempleteVar: ElementRef;
+
+  popUpTemplate: string;
 
   columns: Column[];
 
+  selectedColumnId: string;
   selectedColumnTitle: string;
-  openTask: boolean;
+  selectedColumn: Column;
+  openModal: boolean;
   selectedTask: Task;
   selectedTaskTitle: string;
 
@@ -37,7 +40,31 @@ export class MainViewComponent implements OnInit {
       });
     });
 
-    this.openTask = false;
+    this.openModal = false;
+  }
+
+  openCreateColumnModal() {
+    this.popUpTemplate = "NewColumnComponent";
+    this.openModal = true;
+  }
+
+  openCreateTaskModal(columnId: string, column: Column) {
+    this.popUpTemplate = "NewTaskComponent";
+    this.selectedColumnId = columnId;
+    this.selectedColumn = column;
+    this.openModal = true;
+  }
+
+  openEditTaskModal(task: Task, column: Column) {
+    this.popUpTemplate = "EditTaskComponent";
+    this.selectedTask = task;
+    this.selectedTaskTitle = task.title;
+    this.selectedColumn = column;
+    this.openModal = true;
+  }
+
+  closeModal() {
+    this.openModal = false;
   }
 
   getOtherColumns(singleColumnId: string) {
@@ -132,7 +159,7 @@ export class MainViewComponent implements OnInit {
         });
       }
 
-      this.openTask = false;
+      this.openModal = false;
     }
   }
 
@@ -175,20 +202,7 @@ export class MainViewComponent implements OnInit {
       }
     });
 
-    this.openTask = false;
-  }
-
-  openTaskModal(task: Task) {
-    this.selectedTask = task;
-    this.selectedTaskTitle = task.title;
-    this.openTask = true;
-  }
-
-  closeTaskModal() {
-    this.openTask = false;
-
-    // Resetting the value of the input form
-    this.taskTitleInput.nativeElement.value = this.selectedTaskTitle;
+    this.openModal = false;
   }
 
   logout() {

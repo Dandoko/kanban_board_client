@@ -1,0 +1,17 @@
+<div class="modal-card">
+    <header class="modal-card-head">
+        <p class="modal-card-title">Edit Task</p>
+        <button class="delete" aria-label="close" (click)="mainView.closeModal()"></button>
+    </header>
+    <section class="modal-card-body">
+        title
+        <span class="has-text-danger">*</span>
+        <input #taskTitleInput class="input has-background-light is-medium" type="text" autocomplete=off value="{{selectedTaskTitle}}">
+    </section>
+    <footer class="field modal-card-foot">
+        <button class="button is-success" (click)="updateTask(taskTitleInput.value)">Save changes</button>
+        <button class="button" (click)="mainView.closeModal()">Cancel</button>
+        <button class="button" (click)="completeTask()">Complete Task</button>
+        <button class="button has-background-danger has-text-white" (click)="deleteTask()">Delete</button>
+    </footer>
+</div>

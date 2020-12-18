@@ -9,6 +9,7 @@ import { NewColumnRoutingModule } from './new-column-routing.module';
   imports: [
     CommonModule, 
     NewColumnRoutingModule
-  ]
+  ],
+  exports: [NewColumnComponent]
 })
 export class NewColumnModule { }

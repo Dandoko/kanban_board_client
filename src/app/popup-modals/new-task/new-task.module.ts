@@ -9,6 +9,7 @@ import { NewTaskRoutingModule } from './new-task-routing.module';
   imports: [
     CommonModule,
     NewTaskRoutingModule
-  ]
+  ],
+  exports: [NewTaskComponent]
 })
 export class NewTaskModule { }
