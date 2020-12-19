@@ -1,19 +1,18 @@
 <div class="modal-card">
     <header class="modal-card-head">
-        <p class="modal-card-title">Create a New Column</p>
-        <button class="delete" aria-label="close" (click)="mainView.closeModal()"></button>
+        <p class="modal-card-title has-text-weight-bold">Create a New Column</p>
     </header>
     <section class="modal-card-body">
         <div class="centred-container">
             <div class="modal-container">
-                title
+                Title
                 <span class="has-text-danger">*</span>
-                <input #columnTitleInput class="input has-background-light is-medium" type="text" placeholder="Enter column name...">
+                <input #columnTitleInput class="input has-background-light is-medium" type="text" placeholder="Column name...">
             </div>
         </div>
     </section>
-    <footer class="field modal-card-foot">
-        <button class="button is-success" (click)="createColumn(columnTitleInput.value)">Create</button>
+    <footer class="field modal-card-foot" style="justify-content: flex-end;">
         <button class="button" (click)="mainView.closeModal()">Cancel</button>
+        <button class="button is-link" (click)="createColumn(columnTitleInput.value)">Create</button>
     </footer>
 </div>

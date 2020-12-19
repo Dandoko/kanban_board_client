@@ -1,17 +1,22 @@
 <div class="modal-card">
     <header class="modal-card-head">
-        <p class="modal-card-title">Edit Task</p>
-        <button class="delete" aria-label="close" (click)="mainView.closeModal()"></button>
+        <p class="modal-card-title has-text-weight-bold">Edit Task</p>
     </header>
     <section class="modal-card-body">
-        title
+        Title
         <span class="has-text-danger">*</span>
         <input #taskTitleInput class="input has-background-light is-medium" type="text" autocomplete=off value="{{selectedTaskTitle}}">
+        
+        <label class="checkbox mt-5">
+            <input [attr.checked]="selectedTask && selectedTask.completed?'checked':null" type="checkbox"(click)="completeTask()">
+            Complete Task
+        </label>
     </section>
-    <footer class="field modal-card-foot">
-        <button class="button is-success" (click)="updateTask(taskTitleInput.value)">Save changes</button>
+    <footer class="field modal-card-foot" style="justify-content: space-between;">
         <button class="button" (click)="mainView.closeModal()">Cancel</button>
-        <button class="button" (click)="completeTask()">Complete Task</button>
-        <button class="button has-background-danger has-text-white" (click)="deleteTask()">Delete</button>
+        <div class="field">
+            <button class="button is-success" (click)="updateTask(taskTitleInput.value)">Save changes</button>
+            <button class="button has-background-danger has-text-white" (click)="deleteTask()">Delete</button>
+        </div>
     </footer>
 </div>

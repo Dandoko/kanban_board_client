@@ -1,19 +1,18 @@
 <div class="modal-card">
     <header class="modal-card-head">
-        <p class="modal-card-title">Create a New Task</p>
-        <button class="delete" aria-label="close" (click)="mainView.closeModal()"></button>
+        <p class="modal-card-title has-text-weight-bold">Create a New Task</p>
     </header>
     <section class="modal-card-body">
         <div class="centred-container">
             <div class="modal-container">
-                title
+                Title
                 <span class="has-text-danger">*</span>
-                <input #taskTitleInput class="input has-background-light is-medium" type="text" placeholder="Enter task name...">
+                <input #taskTitleInput class="input has-background-light is-medium" type="text" placeholder="Task name...">
             </div>
         </div>
     </section>
-    <footer class="field modal-card-foot">
-        <button class="button is-success" (click)="createTask(taskTitleInput.value)">Create</button>
+    <footer class="field modal-card-foot" style="justify-content: flex-end;">
         <button class="button" (click)="mainView.closeModal()">Cancel</button>
+        <button class="button is-link" (click)="createTask(taskTitleInput.value)">Create</button>
     </footer>
 </div>

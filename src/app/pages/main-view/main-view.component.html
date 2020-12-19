@@ -7,7 +7,20 @@
         </div>
         <div class="navbar-end">
             <div class="navbar-item">
-                <button class="button is-link has-text-white" (click)="logout()">Logout</button>
+                <div class="dropdown is-hoverable is-right">
+                    <div class="dropdown-trigger">
+                        <button class="button" aria-haspopup="true">
+                            <span class="icon is-small">
+                                <i class="fas fa-cog" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                        <div class="dropdown-content">
+                            <a class="dropdown-item has-text-weight-bold" (click)="logout()" >Log Out</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -22,7 +35,7 @@
 
                 cdkDropListGroup
             >
-                <div class="board-column has-background-grey-light" *ngFor="let column of columns"
+                <div class="board-column" *ngFor="let column of columns"
                     cdkDrag (cdkDragStarted)="startDrag($event)" cdkDragLockAxis="x"
                 >
                     <div class="column-header">
@@ -43,7 +56,7 @@
                             <div class="dropdown-trigger">
                                 <button class="button" aria-haspopup="true">
                                     <span class="icon is-small">
-                                        <i class="fas fa-cog" aria-hidden="true"></i>
+                                        <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
                                     </span>
                                 </button>
                             </div>
@@ -68,7 +81,14 @@
                             [ngClass]="{'completed': task.completed}" cdkDrag
                             (cdkDragStarted)="startDrag($event)"
                         >
-                            {{ task.title }}
+                            <div class="task-text">
+                                {{ task.title }}
+                            </div>
+                            <div *ngIf="task.completed">
+                                <span class="icon has-text-success">
+                                    <i class="fas fa-lg fa-check-circle"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <button (click)="openCreateTaskModal(column._id, column)" class="add-task-button">

@@ -11,6 +11,10 @@
     color: #437ff7
 }
 
+.dropdown-content {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+}
+
 .board {
     display: flex;
     flex-direction: column;
@@ -51,6 +55,7 @@
     flex-grow: 1;
     overflow-y: auto;
     flex-basis: 0; // Forces all columns to be the same size regardless of the content
+    background-color: #e6e6e6;
     
     min-width: 300px;
     max-width: 300px;
@@ -90,7 +95,7 @@
         }
 
         .addFakeBackgroundColor {
-            background-color: hsl(0, 0%, 71%);
+            background-color: #e6e6e6;
         }
     }
 }
@@ -108,7 +113,12 @@
     border-radius: 4px;
     margin-bottom: 15px;
     background: white;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
+
+    .task-text {
+        flex-grow: 1;
+    }
 
     &.completed {
         background: #cfcfcf;
