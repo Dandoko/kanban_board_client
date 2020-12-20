@@ -68,10 +68,6 @@ export class MainViewComponent implements OnInit {
     this.openModal = false;
   }
 
-  // getOtherColumns(singleColumnId: string) {
-  //   this.columns.filter(column => column._id !== singleColumnId);
-  // }
-
   selectColumnTitle(column: Column) {
     column.isTitleSelected = true;
   }
@@ -82,9 +78,10 @@ export class MainViewComponent implements OnInit {
       this.boardService.renameColumn(newTitle, column._id).subscribe(res => {
         console.log(res);
       });
+
+      column.title = newTitle;
     }
 
-    column.title = newTitle;
     column.isTitleSelected = false;
   }
 
@@ -109,23 +106,21 @@ export class MainViewComponent implements OnInit {
   }
 
   dropColumn(event: CdkDragDrop<any>) {
-    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     this.moveColumn(event.previousIndex, event.currentIndex);
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
   }
 
-  deleteColumn(columnId: string) {
-    let deletingColumn = this.columns.find(column => column._id === columnId);
-
-    this.boardService.deleteColumn(columnId).subscribe(res => {
+  deleteColumn(deletingColumn: Column) {
+    this.boardService.deleteColumn(deletingColumn._id).subscribe(res => {
       console.log(res);
     });
 
     let movingColumns = this.columns.filter(column => column.position > deletingColumn.position);
-    movingColumns.forEach((column) => {
+    movingColumns.forEach(column => {
       column.position--;
     });
 
-    this.columns = this.columns.filter(column => column._id !== columnId);
+    this.columns = this.columns.filter(column => column._id !== deletingColumn._id);
   }
 
   completeTask() {
