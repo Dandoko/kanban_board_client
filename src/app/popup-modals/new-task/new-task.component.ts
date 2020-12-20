@@ -22,6 +22,8 @@ export class NewTaskComponent implements OnInit {
 
   createTask(title: string) {
     this.boardService.createTask(title, this.columnId).subscribe((createdTask: Task) => {
+      console.log(this.column);
+      console.log(this.column.tasks);
       this.column.tasks[this.column.tasks.length] = createdTask;
       this.mainView.closeModal();
     });

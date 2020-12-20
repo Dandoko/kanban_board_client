@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BoardService } from 'src/app/core/board.service';
 import { Column } from 'src/app/models/column.model';
+import { Task } from 'src/app/models/task.model';
 import { MainViewComponent } from 'src/app/pages/main-view/main-view.component';
 
 @Component({
@@ -20,6 +21,7 @@ export class NewColumnComponent implements OnInit {
 
   createColumn(title: string) {
     this.boardService.createColumn(title).subscribe((createdColumn: Column) => {
+      createdColumn.tasks = [] as Task[];
       this.columns[this.columns.length] = createdColumn;
       this.mainView.closeModal();
     })

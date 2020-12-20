@@ -11,7 +11,6 @@ export class AuthService {
 
   constructor(private webRequestService: WebRequestService, private router: Router, private http: HttpClient) { }
 
-  // Sign Up
   signup(email: string, password: string) {
     // Using rxjs' .pipe() to combine multiple functions into one
     return this.webRequestService.signup(email, password).pipe(
@@ -20,12 +19,10 @@ export class AuthService {
       // Using tap() to use the observed data without changing anything
       tap((res: HttpResponse<any>) => {
         this.setSession(res.body._id, res.headers.get('x-access-token'), res.headers.get('x-refresh-token'));
-        console.log("src:app:core:auth.service.ts - SIGNED IN AND LOGGED IN");
       })
     );
   }
 
-  // Login
   login(email: string, password: string) {
     return this.webRequestService.login(email, password).pipe(
       shareReplay(),
@@ -36,7 +33,6 @@ export class AuthService {
     );
   }
 
-  // Logout
   logout() {
     this.removeSession();
     this.router.navigate(['/login']);
@@ -46,36 +42,30 @@ export class AuthService {
     return localStorage.getItem('user-id');
   }
 
-  // Gets the access token
   getAccessToken() {
     return localStorage.getItem('x-access-token');
   }
 
-  // Sets the access token
   setAccessToken(accessToken: string) {
     localStorage.setItem('x-access-token', accessToken);
   }
 
-  // Gets the refresh token
   getRefreshToken() {
     return localStorage.getItem('x-refresh-token');
   }
 
-  // Setting the session properties in the local storage
-  private setSession(userId: string, accessToken: string, refreshToken: string) {
+  setSession(userId: string, accessToken: string, refreshToken: string) {
     localStorage.setItem('user-id', userId);
     localStorage.setItem('x-access-token', accessToken);
     localStorage.setItem('x-refresh-token', refreshToken);
   }
 
-  // Removes the session 
-  private removeSession() {
+  removeSession() {
     localStorage.removeItem('user-id');
     localStorage.removeItem('x-access-token');
     localStorage.removeItem('x-refresh-token');
   }
 
-  // Gets a refreshed access token
   getNewAccesToken() {
     return this.http.get(`${this.webRequestService.ROOT_URL}/users/refresh-access-token`, {
       headers: {

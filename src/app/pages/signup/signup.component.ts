@@ -20,10 +20,8 @@ export class SignupComponent implements OnInit {
 
   signup(email: string, password: string) {
     this.authService.signup(email, password).subscribe((res: HttpResponse<any>) => {
-      if (res.status === 200) {
-        this.router.navigate(['/board']);
-        this.invalid = false;
-      }
+      this.router.navigate(['/board']);
+      this.invalid = false;
 
       console.log("src:app:pages:login:signup.component.ts -");
       console.log(res);

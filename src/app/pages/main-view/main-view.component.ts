@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {CdkDrag, CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 import { Column } from 'src/app/models/column.model';
 import { Task } from 'src/app/models/task.model';
@@ -17,15 +17,13 @@ export class MainViewComponent implements OnInit {
   @ViewChild('editTask') editTask: EditTaskComponent;
 
   popUpTemplate: string;
+  openModal: boolean;
 
   columns: Column[];
 
-  selectedColumnId: string;
-  selectedColumnTitle: string;
   selectedColumn: Column;
-  openModal: boolean;
   selectedTask: Task;
-  selectedTaskTitle: string;
+  selectedTaskTitle: string; // Needs a separate variable for the task title to handle undefined errors
 
   constructor(private boardService: BoardService, private authService: AuthService, private renderer: Renderer2) { }
 
@@ -52,7 +50,6 @@ export class MainViewComponent implements OnInit {
 
   openCreateTaskModal(columnId: string, column: Column) {
     this.popUpTemplate = "NewTaskComponent";
-    this.selectedColumnId = columnId;
     this.selectedColumn = column;
     this.openModal = true;
   }
@@ -60,46 +57,35 @@ export class MainViewComponent implements OnInit {
   openEditTaskModal(task: Task, column: Column) {
     this.popUpTemplate = "EditTaskComponent";
     this.selectedTask = task;
-    this.selectedTaskTitle = task.title;
+    this.selectedTaskTitle = this.selectedTask.title
     this.selectedColumn = column;
     this.openModal = true;
 
-    this.editTask.completedCheckbox.nativeElement.checked = this.selectedTask.completed ? 'checked':null;
+    if (this.editTask && this.editTask.completedCheckbox) this.editTask.completedCheckbox.nativeElement.checked = this.selectedTask.completed ? 'checked':null;
   }
 
   closeModal() {
     this.openModal = false;
   }
 
-  getOtherColumns(singleColumnId: string) {
-    this.columns.filter(column => column._id !== singleColumnId);
+  // getOtherColumns(singleColumnId: string) {
+  //   this.columns.filter(column => column._id !== singleColumnId);
+  // }
+
+  selectColumnTitle(column: Column) {
+    column.isTitleSelected = true;
   }
 
-  renameColumn(columnId: string) {
-    this.columns.forEach((column) => {
-      if (column._id === columnId) {
-        this.selectedColumnTitle = column.title;
-        column.isTitleSelected = true;
-        return false;
-      }
-    });
-  }
-
-  updateColumn(columnId: string, newTitle: string) {
+  renameColumn(column: Column, newTitle: string) {
     // Update the column title if the new title is not the same as the old title
-    if (this.selectedColumnTitle !== newTitle) {
-      this.boardService.updateColumn(newTitle, columnId).subscribe(res => {
+    if (column.title !== newTitle) {
+      this.boardService.renameColumn(newTitle, column._id).subscribe(res => {
         console.log(res);
       });
     }
 
-    this.columns.forEach((column) => {
-      if (column._id === columnId) {
-        column.title = newTitle;
-        column.isTitleSelected = false;
-        return false;
-      }
-    });
+    column.title = newTitle;
+    column.isTitleSelected = false;
   }
 
   moveColumn(prevColumnIndex: number, newColumnIndex: number) {
@@ -122,10 +108,15 @@ export class MainViewComponent implements OnInit {
     movingColumn.position = newColumnIndex;
   }
 
+  dropColumn(event: CdkDragDrop<any>) {
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    this.moveColumn(event.previousIndex, event.currentIndex);
+  }
+
   deleteColumn(columnId: string) {
     let deletingColumn = this.columns.find(column => column._id === columnId);
 
-    this.boardService.deleteColumn(columnId).subscribe(res  => {
+    this.boardService.deleteColumn(columnId).subscribe(res => {
       console.log(res);
     });
 
@@ -146,7 +137,7 @@ export class MainViewComponent implements OnInit {
   updateTask(newTitle: string) {
     if (newTitle) {
       // Update the column title if the new title is not the same as the old title
-      if (this.selectedTaskTitle !== newTitle) {
+      if (this.selectedTask.title !== newTitle) {
         this.boardService.renameTask(this.selectedTask, newTitle).subscribe(res => {
           console.log(res);
         });
@@ -190,35 +181,6 @@ export class MainViewComponent implements OnInit {
     movingTask._columnId = newColumnId;
   }
 
-  deleteTask() {
-    this.boardService.deleteTask(this.selectedTask).subscribe(res  => {
-      console.log(res);
-    });
-
-    this.columns.forEach((column) => {
-      if (column._id === this.selectedTask._columnId) {
-        column.tasks = column.tasks.filter(task => task._id !== this.selectedTask._id);
-        let movingTasks = column.tasks.filter(task => task.position > this.selectedTask.position);
-        movingTasks.forEach(task => {
-          task.position--;
-        });
-        return false;
-      }
-    });
-
-    this.openModal = false;
-  }
-
-  logout() {
-    this.authService.logout();
-  }
-
-  dropColumn(event: CdkDragDrop<any>) {
-    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-
-    this.moveColumn(event.previousIndex, event.currentIndex);
-  }
-
   dropTask(event: CdkDragDrop<any>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data.tasks, event.previousIndex, event.currentIndex);
@@ -239,7 +201,26 @@ export class MainViewComponent implements OnInit {
     }
   }
 
-  startDrag(e) {
+  deleteTask() {
+    this.boardService.deleteTask(this.selectedTask).subscribe(res  => {
+      console.log(res);
+    });
+
+    this.columns.forEach((column) => {
+      if (column._id === this.selectedTask._columnId) {
+        column.tasks = column.tasks.filter(task => task._id !== this.selectedTask._id);
+        let movingTasks = column.tasks.filter(task => task.position > this.selectedTask.position);
+        movingTasks.forEach(task => {
+          task.position--;
+        });
+        return false;
+      }
+    });
+
+    this.openModal = false;
+  }
+
+  startDrag(e: any) {
     let preview = new ElementRef<HTMLElement>(document.querySelector(".cdk-drag.cdk-drag-preview"));
     if (this.taskTempleteVar && e.source.element.nativeElement.id === this.taskTempleteVar.nativeElement.id) {
       this.renderer.addClass(preview.nativeElement, 'task');
@@ -247,5 +228,9 @@ export class MainViewComponent implements OnInit {
     else {
       this.renderer.addClass(preview.nativeElement, 'board-column-placeholder');
     }
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

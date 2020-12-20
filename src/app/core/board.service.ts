@@ -17,7 +17,7 @@ export class BoardService {
     return this.webReqService.get('columns');
   }
 
-  updateColumn(title: string, columnId: string) {
+  renameColumn(title: string, columnId: string) {
     return this.webReqService.put(`columns/${columnId}`, {title, columnId});
   }
 

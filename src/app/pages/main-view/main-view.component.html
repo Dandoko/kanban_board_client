@@ -46,8 +46,8 @@
                                 type="text"
                                 placeholder="Column Title"
                                 value="{{ column.title }}"
-                                (focus)="renameColumn(column._id)"
-                                (blur)="updateColumn(column._id, columnTitleInput.value)"
+                                (focus)="selectColumnTitle(column)"
+                                (blur)="renameColumn(column, columnTitleInput.value)"
                                 [ngClass]="{'addFakeBackgroundColor': !column.isTitleSelected}"
                             >
                         </div>
@@ -118,7 +118,7 @@
             <app-new-task
                 *ngSwitchCase="'NewTaskComponent'"
                 [mainView]="this"
-                [columnId]="selectedColumnId"
+                [columnId]="selectedColumn._id"
                 [column]="selectedColumn"
             ></app-new-task>
             <app-edit-task
