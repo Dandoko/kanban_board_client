@@ -5,6 +5,7 @@ import { Column } from 'src/app/models/column.model';
 import { Task } from 'src/app/models/task.model';
 import { BoardService } from '../../core/board.service';
 import { AuthService } from 'src/app/core/auth.service';
+import { EditTaskComponent } from 'src/app/popup-modals/edit-task/edit-task.component';
 
 @Component({
   selector: 'app-main-view',
@@ -13,6 +14,7 @@ import { AuthService } from 'src/app/core/auth.service';
 })
 export class MainViewComponent implements OnInit {
   @ViewChild('taskTempleteVar') taskTempleteVar: ElementRef;
+  @ViewChild('editTask') editTask: EditTaskComponent;
 
   popUpTemplate: string;
 
@@ -61,6 +63,8 @@ export class MainViewComponent implements OnInit {
     this.selectedTaskTitle = task.title;
     this.selectedColumn = column;
     this.openModal = true;
+
+    this.editTask.completedCheckbox.nativeElement.checked = this.selectedTask.completed ? 'checked':null;
   }
 
   closeModal() {

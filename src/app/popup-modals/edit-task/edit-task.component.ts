@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Attribute, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { BoardService } from 'src/app/core/board.service';
 import { Column } from 'src/app/models/column.model';
 import { Task } from 'src/app/models/task.model';
@@ -15,6 +15,8 @@ export class EditTaskComponent implements OnInit {
   @Input() selectedTaskTitle: string;
   @Input() mainView: MainViewComponent;
   @Input() column: Column;
+
+  @ViewChild('completedCheckbox') completedCheckbox: ElementRef;
 
   constructor(private boardService: BoardService) { }
 

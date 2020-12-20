@@ -108,8 +108,8 @@
             </div>
         </div>
 
-        <div class="modal" [ngClass]="{'is-active': openModal}" [ngSwitch]="popUpTemplate">
-            <div class="modal-background" (click)="closeModal()"></div>
+        <div class="modal-overlay" *ngIf="openModal"></div>
+        <div class="modal-popup" [ngSwitch]="popUpTemplate" [ngClass]="{'active': openModal}">
             <app-new-column
                 *ngSwitchCase="'NewColumnComponent'"
                 [mainView]="this"
@@ -122,6 +122,7 @@
                 [column]="selectedColumn"
             ></app-new-task>
             <app-edit-task
+                #editTask
                 *ngSwitchDefault
                 [mainView]="this"
                 [selectedTask]="selectedTask"

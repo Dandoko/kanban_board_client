@@ -12,7 +12,7 @@
         </div>
     </section>
     <footer class="field modal-card-foot" style="justify-content: flex-end;">
-        <button class="button" (click)="mainView.closeModal()">Cancel</button>
-        <button class="button is-link" (click)="createColumn(columnTitleInput.value)">Create</button>
+        <button class="button" (click)="mainView.closeModal();columnTitleInput.value=''">Cancel</button>
+        <button class="button is-link" (click)="createColumn(columnTitleInput.value);columnTitleInput.value=''">Create</button>
     </footer>
 </div>

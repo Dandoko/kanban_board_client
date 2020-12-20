@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { BoardService } from 'src/app/core/board.service';
 import { Column } from 'src/app/models/column.model';
 import { Task } from 'src/app/models/task.model';
