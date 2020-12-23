@@ -19,7 +19,7 @@
     <footer class="field modal-card-foot" style="justify-content: space-between;">
         <button class="button" (click)="mainView.closeModal();taskTitleInput.value=selectedTask.title;">Cancel</button>
         <div class="field">
-            <button class="button is-success" (click)="updateTask(taskTitleInput.value)">Save changes</button>
+            <button class="button is-success" (click)="renameTask(taskTitleInput.value)">Save changes</button>
             <button class="button has-background-danger has-text-white" (click)="deleteTask()">Delete</button>
         </div>
     </footer>

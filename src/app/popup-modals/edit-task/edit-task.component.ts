@@ -29,7 +29,7 @@ export class EditTaskComponent implements OnInit {
     });
   }
 
-  updateTask(newTitle: string) {
+  renameTask(newTitle: string) {
     // Update the column title if the new title is not the same as the old title
     if (this.selectedTaskTitle !== newTitle) {
       this.boardService.renameTask(this.selectedTask, newTitle).subscribe(res => {
@@ -43,7 +43,7 @@ export class EditTaskComponent implements OnInit {
   }
 
   deleteTask() {
-    this.boardService.deleteTask(this.selectedTask).subscribe(res  => {
+    this.boardService.deleteTask(this.selectedTask).subscribe(res => {
       console.log(res);
     });
 

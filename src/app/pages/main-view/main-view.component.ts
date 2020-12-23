@@ -123,36 +123,6 @@ export class MainViewComponent implements OnInit {
     this.columns = this.columns.filter(column => column._id !== deletingColumn._id);
   }
 
-  completeTask() {
-    this.boardService.completeTask(this.selectedTask).subscribe(() => {
-      this.selectedTask.completed = !this.selectedTask.completed;
-    });
-  }
-
-  updateTask(newTitle: string) {
-    if (newTitle) {
-      // Update the column title if the new title is not the same as the old title
-      if (this.selectedTask.title !== newTitle) {
-        this.boardService.renameTask(this.selectedTask, newTitle).subscribe(res => {
-          console.log(res);
-        });
-
-        this.columns.forEach((column) => {
-          if (column._id === this.selectedTask._columnId) {
-            column.tasks.forEach(task => {
-              if (task._id === this.selectedTask._id) {
-                task.title = newTitle;
-                return false;
-              }
-            });
-          }
-        });
-      }
-
-      this.openModal = false;
-    }
-  }
-
   moveTask(prevColumnId: string, newColumnId: string, prevColumnIndex: number, newColumnIndex: number, taskId: string,
           prevTasks: Task[], newTasks: Task[]) {
     this.boardService.moveTask(prevColumnId, newColumnId, prevColumnIndex, newColumnIndex, taskId).subscribe(res => {
