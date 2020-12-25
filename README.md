@@ -7,7 +7,7 @@ authentication process and allows for CRUD operations for tasks and columns.
 
 **Server Side:** [Click Here](https://github.com/Dandoko/kanban_board_api)
 
-**Flowchart:** 
+**Flowchart:** [Click Here](https://github.com/Dandoko/kanban_board_client/diagrams/kanban_board_flowchart.html)
 
 ## Video Demo
 
