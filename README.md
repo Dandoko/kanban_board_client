@@ -17,7 +17,6 @@ authentication process and allows for CRUD operations on tasks and columns.
 
 - Login Page
 - Signup Page
-- JWT Authentication
 - Kanban Board Page
 	- Create Tasks and Columns
 	- Read Tasks and Columns
