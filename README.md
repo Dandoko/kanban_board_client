@@ -3,11 +3,11 @@
 ## Overview
 
 This is the client side of the Kanban Board. The Kanban Board has an
-authentication process and allows for CRUD operations for tasks and columns.
+authentication process and allows for CRUD operations on tasks and columns.
 
 **Server Side:** [Click Here](https://github.com/Dandoko/kanban_board_api)
 
-**Flowchart:** [Click Here](https://github.com/Dandoko/kanban_board_client/diagrams/kanban_board_flowchart.html)
+**Flowchart:** [Click Here](https://github.com/Dandoko/kanban_board_client/tree/master/diagrams/kanban_board_flowchart.html)
 
 ## Video Demo
 
@@ -29,7 +29,7 @@ authentication process and allows for CRUD operations for tasks and columns.
 
 ## Technologies
 
-- AngularJS 10.0.8
-- TypeScript
-- HTML
-- SCSS
+- **AngularJS 10.0.8**
+- **TypeScript**
+- **HTML**
+- **SCSS**
