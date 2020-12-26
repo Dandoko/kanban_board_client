@@ -26,6 +26,11 @@ authentication process and allows for CRUD operations on tasks and columns.
 		- Completing Tasks
 	- Delete Tasks and Columns
 
+## Limitations
+
+- The web application is not designed to be responsive
+- Browser compatibility was only tested for Google Chrome
+
 ## Technologies
 
 - **AngularJS 10.0.8**
