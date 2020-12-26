@@ -32,7 +32,7 @@ export class MainViewComponent implements OnInit {
       this.columns = columns; 
 
       // Getting the tasks inside of each column from the server and assigning the tasks to the column for the frontend
-      this.columns.forEach((column) => {
+      this.columns.forEach(column => {
         this.boardService.getTasks(column._id).subscribe((tasks: Task[]) => {
           column.tasks = tasks;
           column.isTitleSelected = false;
@@ -48,7 +48,7 @@ export class MainViewComponent implements OnInit {
     this.openModal = true;
   }
 
-  openCreateTaskModal(columnId: string, column: Column) {
+  openCreateTaskModal(column: Column) {
     this.popUpTemplate = "NewTaskComponent";
     this.selectedColumn = column;
     this.openModal = true;
@@ -61,7 +61,8 @@ export class MainViewComponent implements OnInit {
     this.selectedColumn = column;
     this.openModal = true;
 
-    if (this.editTask && this.editTask.completedCheckbox) this.editTask.completedCheckbox.nativeElement.checked = this.selectedTask.completed ? 'checked':null;
+    if (this.editTask && this.editTask.completedCheckbox)
+      this.editTask.completedCheckbox.nativeElement.checked = this.selectedTask.completed ? 'checked':null;
   }
 
   closeModal() {
@@ -171,7 +172,7 @@ export class MainViewComponent implements OnInit {
       console.log(res);
     });
 
-    this.columns.forEach((column) => {
+    this.columns.forEach(column => {
       if (column._id === this.selectedTask._columnId) {
         column.tasks = column.tasks.filter(task => task._id !== this.selectedTask._id);
         let movingTasks = column.tasks.filter(task => task.position > this.selectedTask.position);

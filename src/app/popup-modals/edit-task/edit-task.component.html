@@ -8,9 +8,6 @@
         <input #taskTitleInput class="input has-background-light is-medium" type="text" autocomplete=off value="{{selectedTaskTitle}}">
         
         <label class="checkbox mt-5">
-            <!-- This method does not work since the checked attribute is shared between multiple different tasks -->
-            <!-- <input [attr.checked]="selectedTask && selectedTask.completed?'':null" type="checkbox" (change)="completeTask()"> -->
-            
             <!-- Setting the value from the MainViewComponent -->
             <input #completedCheckbox type="checkbox" (change)="completeTask()">
             Complete Task

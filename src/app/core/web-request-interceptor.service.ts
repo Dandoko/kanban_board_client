@@ -13,7 +13,7 @@ import { AuthService } from './auth.service';
 export class WebRequestInterceptorService implements HttpInterceptor {
   // Identifies if the access token is being refreshed
   isRefreshing: boolean;
-  // Using a subject to retry the refreshing access token when the token has already been refreshed
+  // Using a subject to retry refreshing the access token when the token has already been refreshed
   accessTokenRefreshed: Subject<any> = new Subject();
 
   constructor(private authService: AuthService) { }
