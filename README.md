@@ -33,7 +33,7 @@ authentication process and allows for CRUD operations on tasks and columns.
 
 ## Technologies
 
-- **AngularJS 10.0.8**
+- **Angular 10.0.8**
 - **TypeScript**
 - **HTML**
 - **SCSS**
